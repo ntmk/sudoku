@@ -116,58 +116,67 @@ function removeValues(toRemove) {
 
 fillGrid(available);
 removeValues(veryHard);
-console.log(grid);
-displayGrid(grid);
+// console.log(grid);
+// displayGrid(grid);
 
-
-
+// setup canvas references / add to page
 let wrapper = document.getElementById('canvas-wrapper');
 let canvas = document.createElement('canvas');
-canvas.width = 450;
-canvas.height = 450;
-canvas.id = 'grid-canvas'
-
+let ctx = canvas.getContext('2d');
 wrapper.appendChild(canvas);
 
-// let canvas = document.getElementById('grid-canvas');
-let gridctx = canvas.getContext('2d');
+// set the canvas size based on available width 
+let boardSize;
+if (window.innerHeight < 450) {
+  boardSize = window.innerHeight;
+} else if (window.innerWidth < 450) {
+  boardSize = window.innerWidth
+} else {
+  boardSize = 450;
+}
+canvas.width = canvas.height = boardSize;
+console.log(boardSize)
+let regionSize = boardSize / 3;
+console.log(regionSize)
+let cellSize = boardSize / 9;
+console.log(cellSize)
 
 // draw sqaures / cells
-for (let i = 0; i < 450; i+=50) {
-  for (let j = 0; j < 450; j+=50) {
-    gridctx.beginPath();
-    gridctx.lineWidth = 1;
-    gridctx.font = '20px bold serif'
-    gridctx.textAlign = 'center';
-    gridctx.textBaseline = 'middle';
-    if (grid[Math.floor(i/50)][Math.floor(j/50)] !== 0) {
-      gridctx.fillText(grid[Math.floor(i/50)][Math.floor(j/50)], i+25, j+25);
+for (let i = 0; i < boardSize; i+=cellSize) {
+  for (let j = 0; j < boardSize; j+=cellSize) {
+    ctx.beginPath();
+    ctx.lineWidth = 1;
+    ctx.font = 'bold 20px serif'
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    if (grid[Math.floor(i/cellSize)][Math.floor(j/cellSize)] !== 0) {
+      ctx.fillText(grid[Math.floor(i/cellSize)][Math.floor(j/cellSize)], i+cellSize/2, j+cellSize/2);
     }
-    gridctx.strokeStyle = 'grey';
-    gridctx.rect(j, i, 50, 50);
-    gridctx.stroke();
+    ctx.strokeStyle = 'grey';
+    ctx.rect(j, i, cellSize, cellSize);
+    ctx.stroke();
   }
 }
 
 // draw border
-gridctx.beginPath()
-gridctx.lineWidth = 8;
-gridctx.strokeStyle = 'black';
-gridctx.rect(0, 0, grid.width, grid.height);
-gridctx.stroke();
+ctx.beginPath()
+ctx.lineWidth = 8;
+ctx.strokeStyle = 'black';
+ctx.rect(0, 0, boardSize, boardSize);
+ctx.stroke();
 
 // // draw regions
-for (let i = 0; i < 450; i+=150) {
-  for (let j = 0; j < 450; j+=150) {
-    gridctx.beginPath();
-    gridctx.lineWidth = 4;
-    gridctx.strokeStyle = "black";
-    gridctx.rect(j,i, 150, 150);
-    gridctx.stroke();
+for (let i = 0; i < boardSize; i+=regionSize) {
+  for (let j = 0; j < boardSize; j+=regionSize) {
+    ctx.beginPath();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = "black";
+    ctx.rect(j,i, regionSize, regionSize);
+    ctx.stroke();
   }
 }
 
-canvas.addEventListener('pointerdown', (e) => {
-  console.log(e)
-  console.log(`x: ${Math.floor(e.layerX / 50)} y: ${Math.floor(e.layerY / 50)}`)
-})
+// canvas.addEventListener('pointerdown', (e) => {
+//   console.log(e)
+//   console.log(`x: ${Math.floor(e.layerX / 50)} y: ${Math.floor(e.layerY / 50)}`)
+// })
