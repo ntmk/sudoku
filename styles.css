@@ -1,0 +1,16 @@
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+div #canvas-wrapper {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+canvas {
+  background-color: rgb(253, 252, 252);
+  display: block;
+  margin: 0 auto;
+}
