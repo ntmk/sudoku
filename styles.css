@@ -4,13 +4,16 @@
   margin: 0;
 }
 
-div #canvas-wrapper {
+#canvas-wrapper {
+  max-width: 100%;
+  height: auto;
   margin-left: auto;
   margin-right: auto;
 }
 
 canvas {
-  background-color: rgb(253, 252, 252);
+  background-color: rgb(248, 248, 248);
   display: block;
-  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
 }
