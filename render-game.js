@@ -7,6 +7,7 @@ wrapper.appendChild(canvas);
 canvas.width = canvas.height = gameMap.boardSize;
 
 // draw sqaures / cells
+function drawCells () {
 for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
   for (let j = 0; j < gameMap.boardSize; j+=gameMap.cellSize) {
     let cell = gameMap.puzzle[Math.floor(i/gameMap.cellSize)][Math.floor(j/gameMap.cellSize)]
@@ -23,14 +24,18 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
     ctx.stroke();
   }
 }
+}
 
+function drawBorder(){
 // draw border
 ctx.beginPath()
 ctx.lineWidth = 8;
 ctx.strokeStyle = 'black';
 ctx.rect(0, 0, gameMap.boardSize, gameMap.boardSize);
 ctx.stroke();
+}
 
+function drawRegion() {
 // // draw regions
 for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
   for (let j = 0; j < gameMap.boardSize; j+=gameMap.regionSize) {
@@ -41,3 +46,7 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
     ctx.stroke();
   }
 }
+}
+drawCells();
+drawRegion();
+drawBorder();
