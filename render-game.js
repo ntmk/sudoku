@@ -17,6 +17,7 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     if (gameMap.puzzle[cell.x][cell.y].value !== 0) {
+      ctx.fillStyle = 'black'
       ctx.fillText(gameMap.puzzle[cell.x][cell.y].value, i+gameMap.cellSize/2, j+gameMap.cellSize/2);
     }
     ctx.strokeStyle = 'grey';

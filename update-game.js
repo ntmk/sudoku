@@ -71,20 +71,17 @@ document.querySelectorAll('button').forEach(button => {
 
 function fillInValue(selected, number) {
   selected.value = number
+  draw()
   if (!checkConflict(number, selected.x, selected.y)) {
     ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     draw();
+    highlightCell(selected.x, selected.y);
   } else {
+    ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     draw()
     ctx.beginPath();
     ctx.fillStyle = 'rgba(255,0,0, 0.2)';
     ctx.fillRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
   }
-  // ctx.beginPath();
-  // ctx.font = 'bold 20px serif'
-  // ctx.textAlign = 'center';
-  // ctx.textBaseline = 'middle';
-  // ctx.fillText(number, selected.posX, selected.posY);
-  // ctx.stroke();
 }
