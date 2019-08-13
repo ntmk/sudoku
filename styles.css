@@ -17,3 +17,9 @@ canvas {
   margin-left: auto;
   margin-right: auto;
 }
+
+button {
+  padding: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
