@@ -5,7 +5,7 @@ canvas.addEventListener('pointerdown', (e) => {
   let selectedY = Math.floor(e.layerY / gameMap.cellSize)
   selected = gameMap.puzzle[selectedX][selectedY];
   highlightCell(selectedX, selectedY);
-  // highlightRow(selectedY);
+  highlightRow(selectedY);
   // highlightCol(selectedX);
   // highlightRegion(selectedX, selectedY)
   console.log(`x: ${selectedX} y: ${selectedY}`)
@@ -23,7 +23,9 @@ function highlightCell(x, y) {
 
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
+    
     let cell = gameMap.puzzle[i][y];
+   
     ctx.beginPath();
     ctx.fillStyle = 'rgba(34,182,216, 0.3)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
@@ -68,11 +70,12 @@ document.querySelectorAll('button').forEach(button => {
 });
 
 function fillInValue(selected, number) {
-  console.log('fillin')
   selected.value = number
   if (!checkConflict(number, selected.x, selected.y)) {
-    drawCells();
+    ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
+    draw();
   } else {
+    draw()
     ctx.beginPath();
     ctx.fillStyle = 'rgba(255,0,0, 0.2)';
     ctx.fillRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);

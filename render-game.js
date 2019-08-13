@@ -47,6 +47,11 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
   }
 }
 }
-drawCells();
-drawRegion();
-drawBorder();
+
+function draw() {
+  drawCells();
+  drawRegion();
+  drawBorder();
+}
+
+draw();
