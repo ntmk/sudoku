@@ -1,4 +1,5 @@
 // use pointer down for mobile and mouse clicks
+let curr = {};
 canvas.addEventListener('pointerdown', (e) => {
   console.log(e)
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
@@ -23,9 +24,7 @@ function highlightCell(x, y) {
 
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
-    
     let cell = gameMap.puzzle[i][y];
-   
     ctx.beginPath();
     ctx.fillStyle = 'rgba(34,182,216, 0.3)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
