@@ -1,20 +1,14 @@
 // use pointer down for mobile and mouse clicks
-let current = null;
 canvas.addEventListener('pointerdown', (e) => {
   console.log(e)
-  
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
   let selectedY = Math.floor(e.layerY / gameMap.cellSize)
   selected = gameMap.puzzle[selectedX][selectedY];
-  if (current == selected) { 
   highlightCell(selectedX, selectedY);
-  highlightRow(selectedY);
-  highlightCol(selectedX);
-  highlightRegion(selectedX, selectedY)
+  // highlightRow(selectedY);
+  // highlightCol(selectedX);
+  // highlightRegion(selectedX, selectedY)
   console.log(`x: ${selectedX} y: ${selectedY}`)
-  } else {
-    current = selected
-  }
 });
 
 let selected;
@@ -76,7 +70,14 @@ document.querySelectorAll('button').forEach(button => {
 function fillInValue(selected, number) {
   console.log('fillin')
   selected.value = number
-  drawCells();
+  if (!checkConflict(number, selected.x, selected.y)) {
+    drawCells();
+  } else {
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255,0,0, 0.2)';
+    ctx.fillRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
+    ctx.stroke();
+  }
   // ctx.beginPath();
   // ctx.font = 'bold 20px serif'
   // ctx.textAlign = 'center';
