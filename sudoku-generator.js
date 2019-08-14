@@ -81,7 +81,7 @@ function checkRegion(number, x, y) {
 
 // Check for conflicts on the board
 function checkConflict(number, x, y) {
-  if (checkRow(number, y) || checkCol(number, x) || checkRegion(number, x, y)) {
+  if (checkRegion(number, x, y) || checkRow(number, y) || checkCol(number, x)) {
     return true;
   }
   return false;

@@ -1,12 +1,11 @@
 // use pointer down for mobile and mouse clicks
 let curr = {};
 canvas.addEventListener('pointerdown', (e) => {
-  console.log(e)
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
   let selectedY = Math.floor(e.layerY / gameMap.cellSize)
   selected = gameMap.puzzle[selectedX][selectedY];
-  highlightRegion(selectedX, selectedY)
   highlightCell(selectedX, selectedY);
+  highlightRegion(selectedX, selectedY)
   highlightRow(selectedY);
   highlightCol(selectedX);
 });
@@ -15,21 +14,19 @@ let selected;
 
 function highlightCell(x, y) {
   let cell = gameMap.puzzle[x][y];
-  if (cell.isSelected) {
-    console.log("skipping cell")
+  if (!cell.isSelected) {
+    cell.isSelected = true;
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(34,182,216, 0.1)';
+    ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
+    ctx.stroke();
   }
-  cell.isSelected = true;
-  ctx.beginPath();
-  ctx.fillStyle = 'rgba(34,182,216, 0.1)';
-  ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
-  ctx.stroke();
 }
 
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[i][y];
     if (cell.isSelected) {
-      console.log("skipping cell")
       continue;
     }
     cell.isSelected = true;
@@ -45,7 +42,6 @@ function highlightCol(x) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[x][i];
     if (cell.isSelected) {
-      console.log("skipping cell")
       continue;
     }
     cell.isSelected = true;
@@ -78,7 +74,6 @@ let number;
 
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('pointerdown', (e) => {
-    console.log(e.target.value);
     number = e.target.value
     if (selected) {
       fillInValue(selected, number)
@@ -88,7 +83,7 @@ document.querySelectorAll('button').forEach(button => {
 
 function fillInValue(selected, number) {
   selected.value = number
-  draw()
+  // draw()
   if (!checkConflict(number, selected.x, selected.y)) {
     ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     draw();

@@ -11,6 +11,7 @@ function drawCells () {
 for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
   for (let j = 0; j < gameMap.boardSize; j+=gameMap.cellSize) {
     let cell = gameMap.puzzle[Math.floor(i/gameMap.cellSize)][Math.floor(j/gameMap.cellSize)]
+    
     ctx.beginPath();
     ctx.lineWidth = 1;
     ctx.font = 'bold 20px serif'
@@ -29,24 +30,24 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
 
 function drawBorder(){
 // draw border
-ctx.beginPath()
-ctx.lineWidth = 8;
-ctx.strokeStyle = 'black';
-ctx.rect(0, 0, gameMap.boardSize, gameMap.boardSize);
-ctx.stroke();
+  ctx.beginPath()
+  ctx.lineWidth = 8;
+  ctx.strokeStyle = 'black';
+  ctx.rect(0, 0, gameMap.boardSize, gameMap.boardSize);
+  ctx.stroke();
 }
 
 function drawRegion() {
 // // draw regions
-for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
-  for (let j = 0; j < gameMap.boardSize; j+=gameMap.regionSize) {
-    ctx.beginPath();
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = "black";
-    ctx.rect(j,i, gameMap.regionSize, gameMap.regionSize);
-    ctx.stroke();
+  for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
+    for (let j = 0; j < gameMap.boardSize; j+=gameMap.regionSize) {
+      ctx.beginPath();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = "black";
+      ctx.rect(j,i, gameMap.regionSize, gameMap.regionSize);
+      ctx.stroke();
+    }
   }
-}
 }
 
 function draw() {
