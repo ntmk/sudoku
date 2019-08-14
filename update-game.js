@@ -5,17 +5,20 @@ canvas.addEventListener('pointerdown', (e) => {
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
   let selectedY = Math.floor(e.layerY / gameMap.cellSize)
   selected = gameMap.puzzle[selectedX][selectedY];
+  highlightRegion(selectedX, selectedY)
   highlightCell(selectedX, selectedY);
   highlightRow(selectedY);
-  // highlightCol(selectedX);
-  // highlightRegion(selectedX, selectedY)
-  console.log(`x: ${selectedX} y: ${selectedY}`)
+  highlightCol(selectedX);
 });
 
 let selected;
 
 function highlightCell(x, y) {
   let cell = gameMap.puzzle[x][y];
+  if (cell.isSelected) {
+    console.log("skipping cell")
+  }
+  cell.isSelected = true;
   ctx.beginPath();
   ctx.fillStyle = 'rgba(34,182,216, 0.1)';
   ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
@@ -25,6 +28,11 @@ function highlightCell(x, y) {
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[i][y];
+    if (cell.isSelected) {
+      console.log("skipping cell")
+      continue;
+    }
+    cell.isSelected = true;
     ctx.beginPath();
     ctx.fillStyle = 'rgba(34,182,216, 0.3)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
@@ -33,8 +41,14 @@ function highlightRow(y) {
 }
 
 function highlightCol(x) {
+  
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[x][i];
+    if (cell.isSelected) {
+      console.log("skipping cell")
+      continue;
+    }
+    cell.isSelected = true;
     ctx.beginPath();
     ctx.fillStyle = 'rgba(34,182,216, 0.3)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
@@ -48,10 +62,14 @@ function highlightRegion(x, y) {
   for (let y = yReg; y < yReg + 3; y++) {
     for (let x = xReg; x < xReg + 3; x++) {
       let cell = gameMap.puzzle[x][y]
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(34,182,216, 0.3)';
-    ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
-    ctx.stroke();
+      if (cell.isSelected) {
+        continue;
+      }
+      cell.isSelected = true;
+      ctx.beginPath();
+      ctx.fillStyle = 'rgba(34,182,216, 0.3)';
+      ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
+      ctx.stroke();
     }
   }
 }
