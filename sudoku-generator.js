@@ -48,6 +48,7 @@ function randomNum() {
 // Check each row for duplicates / valid number
 function checkRow(number, y) {
   for (let x = 0; x < 9; x++) {
+    // console.log(x, y)
     if (grid[x][y] === number) {
       return true;
     }
@@ -116,3 +117,5 @@ function removeValues(toRemove) {
 
 fillGrid(available);
 removeValues(insane);
+console.log(grid)
+// displayGrid(grid);

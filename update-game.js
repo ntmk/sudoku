@@ -1,14 +1,4 @@
-// use pointer down for mobile and mouse clicks
-let curr = {};
-canvas.addEventListener('pointerdown', (e) => {
-  let selectedX = Math.floor(e.layerX / gameMap.cellSize)
-  let selectedY = Math.floor(e.layerY / gameMap.cellSize)
-  selected = gameMap.puzzle[selectedX][selectedY];
-  highlightCell(selectedX, selectedY);
-  highlightRegion(selectedX, selectedY)
-  highlightRow(selectedY);
-  highlightCol(selectedX);
-});
+
 
 let selected;
 
@@ -70,30 +60,52 @@ function highlightRegion(x, y) {
   }
 }
 
-let number;
-
-document.querySelectorAll('button').forEach(button => {
-  button.addEventListener('pointerdown', (e) => {
-    number = e.target.value
-    if (selected) {
-      fillInValue(selected, number)
-    }
-  });
-});
-
 function fillInValue(selected, number) {
   selected.value = number
   // draw()
   if (!checkConflict(number, selected.x, selected.y)) {
     ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
-    draw();
+    drawBoard();
     highlightCell(selected.x, selected.y);
   } else {
     ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
-    draw()
+    drawBoard()
     ctx.beginPath();
     ctx.fillStyle = 'rgba(255,0,0, 0.2)';
     ctx.fillRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
   }
 }
+
+let clicked = {
+  previous: null,
+  current: null
+}
+document.querySelectorAll('button').forEach(button => {
+  button.addEventListener('pointerdown', (e) => {
+    if (selected) {
+      fillInValue(selected, e.target.value)
+    }
+  });
+});
+
+// use pointer down for mobile and mouse clicks
+canvas.addEventListener('pointerdown', (e) => {
+  let selectedX = Math.floor(e.layerX / gameMap.cellSize)
+  let selectedY = Math.floor(e.layerY / gameMap.cellSize)
+  selected = gameMap.puzzle[selectedX][selectedY];
+  if (clicked.current === null || selected.x != clicked.current.x && selected.y != clicked.current.y) {
+    clicked.previous = clicked.current;
+  }
+  clicked.current = selected;
+  console.log(clicked)
+  if (selected.value === 0) {
+    ctx.clearRect(0, 0, gameMap.boardSize, gameMap.boardSize);
+    drawBoard()
+    highlightCell(selectedX, selectedY);
+    highlightRegion(selectedX, selectedY)
+    highlightRow(selectedY);
+    highlightCol(selectedX);
+  }
+  // clicked.previous.isSelected = false;
+});
