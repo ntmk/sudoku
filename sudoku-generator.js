@@ -48,8 +48,7 @@ function randomNum() {
 // Check each row for duplicates / valid number
 function checkRow(number, y) {
   for (let x = 0; x < 9; x++) {
-    // console.log(x, y)
-    if (grid[x][y] === number) {
+    if (grid[x][y] === parseInt(number)) {
       return true;
     }
   }
@@ -59,7 +58,7 @@ function checkRow(number, y) {
 // Check each column for duplicates / valid number
 function checkCol(number, x) {
   for (let y = 0; y < 9; y++) {
-    if ( grid[x][y] == number) {
+    if (grid[x][y] === parseInt(number)) {
       return true;
     }
   }
@@ -72,7 +71,7 @@ function checkRegion(number, x, y) {
   let yReg = Math.floor(y / 3) * 3;
   for (let y = yReg; y < yReg + 3; y++) {
     for (let x = xReg; x < xReg + 3; x++) {
-      if (grid[x][y] === number) {
+      if (grid[x][y] === parseInt(number)) {
         return true;
       }
     }
@@ -116,6 +115,44 @@ function removeValues(toRemove) {
 }
 
 fillGrid(available);
-removeValues(insane);
+removeValues(veryEasy);
 console.log(grid)
-// displayGrid(grid);
+
+// set the canvas size based on available width 
+function getBoardSize() {
+  if (window.innerHeight < 450) {
+    return window.innerHeight;
+  } else if (window.innerWidth < 450) {
+    return window.innerWidth
+  } else {
+    return 450;
+  }
+}
+
+const boardSize = getBoardSize();
+
+// Generate map of current board
+let gameMap = {
+  boardSize: boardSize,
+  regionSize: boardSize / 3,
+  cellSize: boardSize / 9,
+  puzzle: []
+}
+
+for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
+  let row = [];
+  for (let j = 0; j < gameMap.boardSize; j+=gameMap.cellSize) {
+    let cell = {
+      x: Math.floor(i/gameMap.cellSize),
+      y: Math.floor(j/gameMap.cellSize),
+      posX: i,
+      posY: j,
+      value: grid[Math.floor(i/gameMap.cellSize)][Math.floor(j/gameMap.cellSize)],
+      isSelected: false,
+    }
+    row.push(cell);
+  }
+  gameMap.puzzle.push(row);
+}
+
+console.log('game map ', gameMap)

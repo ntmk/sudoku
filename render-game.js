@@ -1,4 +1,3 @@
-// setup canvas references / add to page
 const wrapper = document.getElementById('canvas-wrapper');
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -6,7 +5,6 @@ wrapper.appendChild(canvas);
 
 canvas.width = canvas.height = gameMap.boardSize;
 
-// draw sqaures / cells
 function drawCells () {
   for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
     for (let j = 0; j < gameMap.boardSize; j+=gameMap.cellSize) {
@@ -28,7 +26,6 @@ function drawCells () {
 }
 
 function drawRegion() {
-  // draw regions
   for (let i = 0; i < gameMap.boardSize; i+=gameMap.regionSize) {
     for (let j = 0; j < gameMap.boardSize; j+=gameMap.regionSize) {
       ctx.beginPath();
@@ -41,7 +38,6 @@ function drawRegion() {
 }
 
 function drawBorder(){
-  // draw border
   ctx.beginPath()
   ctx.lineWidth = 8;
   ctx.strokeStyle = 'black';

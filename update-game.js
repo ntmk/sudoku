@@ -13,6 +13,13 @@ function highlightCell(x, y) {
   }
 }
 
+function resetCell(x, y) {
+  let cell = gameMap.puzzle[x][y];
+  cell.isSelected = false;
+}
+
+
+
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[i][y];
@@ -27,8 +34,14 @@ function highlightRow(y) {
   }
 }
 
+function resetRow(y) {
+  for (let i = 0; i < 9; i++) {
+    let cell = gameMap.puzzle[i][y];
+    cell.isSelected = false;
+  }
+}
+
 function highlightCol(x) {
-  
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[x][i];
     if (cell.isSelected) {
@@ -39,6 +52,13 @@ function highlightCol(x) {
     ctx.fillStyle = 'rgba(34,182,216, 0.3)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
+  }
+}
+
+function resetCol(x) {
+  for (let i = 0; i < 9; i++) {
+    let cell = gameMap.puzzle[x][i];
+    cell.isSelected = false;
   }
 }
 
@@ -60,9 +80,19 @@ function highlightRegion(x, y) {
   }
 }
 
+function resetRegion(x, y) {
+  let xReg = Math.floor(x / 3) * 3;
+  let yReg = Math.floor(y / 3) * 3;
+  for (let y = yReg; y < yReg + 3; y++) {
+    for (let x = xReg; x < xReg + 3; x++) {
+      let cell = gameMap.puzzle[x][y];
+      cell.isSelected = false;
+    }
+  }
+}
+
 function fillInValue(selected, number) {
   selected.value = number
-  // draw()
   if (!checkConflict(number, selected.x, selected.y)) {
     ctx.clearRect(selected.posX, selected.posY, gameMap.cellSize, gameMap.cellSize);
     drawBoard();
@@ -81,6 +111,7 @@ let clicked = {
   previous: null,
   current: null
 }
+
 document.querySelectorAll('button').forEach(button => {
   button.addEventListener('pointerdown', (e) => {
     if (selected) {
@@ -89,6 +120,7 @@ document.querySelectorAll('button').forEach(button => {
   });
 });
 
+// FIXME: not working if cells clicked in same region
 // use pointer down for mobile and mouse clicks
 canvas.addEventListener('pointerdown', (e) => {
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
@@ -96,6 +128,13 @@ canvas.addEventListener('pointerdown', (e) => {
   selected = gameMap.puzzle[selectedX][selectedY];
   if (clicked.current === null || selected.x != clicked.current.x && selected.y != clicked.current.y) {
     clicked.previous = clicked.current;
+    if (clicked.previous != null) {
+      drawBoard()
+      resetCell(clicked.previous.x, clicked.previous.y);
+      resetRegion(clicked.previous.x, clicked.previous.y)
+      resetRow(clicked.previous.y);
+      resetCol(clicked.previous.x);
+    }
   }
   clicked.current = selected;
   console.log(clicked)
@@ -107,5 +146,4 @@ canvas.addEventListener('pointerdown', (e) => {
     highlightRow(selectedY);
     highlightCol(selectedX);
   }
-  // clicked.previous.isSelected = false;
 });
