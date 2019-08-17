@@ -136,9 +136,14 @@ let gameMap = {
   boardSize: boardSize,
   regionSize: boardSize / 3,
   cellSize: boardSize / 9,
-  puzzle: []
+  puzzle: [],
+  settings: {
+    guides: false,
+    hints: false
+  }
 }
 
+// create cell object
 for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
   let row = [];
   for (let j = 0; j < gameMap.boardSize; j+=gameMap.cellSize) {
@@ -148,7 +153,8 @@ for (let i = 0; i < gameMap.boardSize; i+=gameMap.cellSize) {
       posX: i,
       posY: j,
       value: grid[Math.floor(i/gameMap.cellSize)][Math.floor(j/gameMap.cellSize)],
-      isSelected: false,
+      selected: false,
+      conflict: false,
     }
     row.push(cell);
   }

@@ -4,10 +4,10 @@ let selected;
 
 function highlightCell(x, y) {
   let cell = gameMap.puzzle[x][y];
-  if (!cell.isSelected) {
-    cell.isSelected = true;
+  if (!cell.selected) {
+    cell.selected = true;
     ctx.beginPath();
-    ctx.fillStyle = 'rgba(34,182,216, 0.1)';
+    ctx.fillStyle = 'rgba(34,182,216, 0.2)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
   }
@@ -15,7 +15,7 @@ function highlightCell(x, y) {
 
 function resetCell(x, y) {
   let cell = gameMap.puzzle[x][y];
-  cell.isSelected = false;
+  cell.selected = false;
 }
 
 
@@ -23,12 +23,12 @@ function resetCell(x, y) {
 function highlightRow(y) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[i][y];
-    if (cell.isSelected) {
+    if (cell.selected) {
       continue;
     }
-    cell.isSelected = true;
+    cell.selected = true;
     ctx.beginPath();
-    ctx.fillStyle = 'rgba(34,182,216, 0.3)';
+    ctx.fillStyle = 'rgba(34,182,216, 0.2)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
   }
@@ -37,19 +37,19 @@ function highlightRow(y) {
 function resetRow(y) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[i][y];
-    cell.isSelected = false;
+    cell.selected = false;
   }
 }
 
 function highlightCol(x) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[x][i];
-    if (cell.isSelected) {
+    if (cell.selected) {
       continue;
     }
-    cell.isSelected = true;
+    cell.selected = true;
     ctx.beginPath();
-    ctx.fillStyle = 'rgba(34,182,216, 0.3)';
+    ctx.fillStyle = 'rgba(34,182,216, 0.2)';
     ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
     ctx.stroke();
   }
@@ -58,7 +58,7 @@ function highlightCol(x) {
 function resetCol(x) {
   for (let i = 0; i < 9; i++) {
     let cell = gameMap.puzzle[x][i];
-    cell.isSelected = false;
+    cell.selected = false;
   }
 }
 
@@ -68,12 +68,12 @@ function highlightRegion(x, y) {
   for (let y = yReg; y < yReg + 3; y++) {
     for (let x = xReg; x < xReg + 3; x++) {
       let cell = gameMap.puzzle[x][y]
-      if (cell.isSelected) {
+      if (cell.selected) {
         continue;
       }
-      cell.isSelected = true;
+      cell.selected = true;
       ctx.beginPath();
-      ctx.fillStyle = 'rgba(34,182,216, 0.3)';
+      ctx.fillStyle = 'rgba(34,182,216, 0.2)';
       ctx.fillRect(cell.posX, cell.posY, gameMap.cellSize, gameMap.cellSize);
       ctx.stroke();
     }
@@ -86,7 +86,7 @@ function resetRegion(x, y) {
   for (let y = yReg; y < yReg + 3; y++) {
     for (let x = xReg; x < xReg + 3; x++) {
       let cell = gameMap.puzzle[x][y];
-      cell.isSelected = false;
+      cell.selected = false;
     }
   }
 }
@@ -123,6 +123,10 @@ document.querySelectorAll('button').forEach(button => {
 // FIXME: not working if cells clicked in same region
 // use pointer down for mobile and mouse clicks
 canvas.addEventListener('pointerdown', (e) => {
+  showGuides(e)
+});
+
+function showGuides(e) {
   let selectedX = Math.floor(e.layerX / gameMap.cellSize)
   let selectedY = Math.floor(e.layerY / gameMap.cellSize)
   selected = gameMap.puzzle[selectedX][selectedY];
@@ -131,9 +135,9 @@ canvas.addEventListener('pointerdown', (e) => {
     if (clicked.previous != null) {
       drawBoard()
       resetCell(clicked.previous.x, clicked.previous.y);
-      resetRegion(clicked.previous.x, clicked.previous.y)
-      resetRow(clicked.previous.y);
-      resetCol(clicked.previous.x);
+      // resetRegion(clicked.previous.x, clicked.previous.y)
+      // resetRow(clicked.previous.y);
+      // resetCol(clicked.previous.x);
     }
   }
   clicked.current = selected;
@@ -142,8 +146,8 @@ canvas.addEventListener('pointerdown', (e) => {
     ctx.clearRect(0, 0, gameMap.boardSize, gameMap.boardSize);
     drawBoard()
     highlightCell(selectedX, selectedY);
-    highlightRegion(selectedX, selectedY)
-    highlightRow(selectedY);
-    highlightCol(selectedX);
+    // highlightRegion(selectedX, selectedY)
+    // highlightRow(selectedY);
+    // highlightCol(selectedX);
   }
-});
+}
